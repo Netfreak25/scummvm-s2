@@ -1,80 +1,98 @@
-# [ScummVM README](https://www.scummvm.org/) · [![Translation status](https://translations.scummvm.org/widgets/scummvm/-/scummvm/svg-badge.svg)](https://translations.scummvm.org/engage/scummvm/?utm_source=widget) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md#pull-requests)
+# ScummVM-S2
 
-## About ScummVM
+ScummVM-S2 is an independent build of [ScummVM](https://www.scummvm.org/)
+for Nintendo Switch 2 homebrew using [libounce](https://github.com/ouncebrew/ounce-devkit).
+It targets the NRO loader provided by kaiHEN. This is an unofficial project.
 
-ScummVM allows you to play classic graphic point-and-click adventure games, text adventure games, and RPGs, as long as you already have the game data files. ScummVM replaces the executable files shipped with the games, which means you can now play your favorite games on all your favorite devices.
+## Status
 
-So how did ScummVM get its name? Many of the famous LucasArts adventure games, such as Maniac Mansion and the Monkey Island series, were created using a utility called SCUMM (Script Creation Utility for Maniac Mansion). The ‘VM’ in ScummVM stands for Virtual Machine.
+**Unverified build candidate.** The source compiles and produces AArch64 NRO
+packages, but neither package has been started on a Switch 2 yet.
 
-While ScummVM was originally designed to run LucasArts’ SCUMM games, over time support has been added for many other games: see the full list [on our wiki](https://wiki.scummvm.org/index.php?title=Category:Supported_Games). Noteworthy titles include Broken Sword, Myst and Blade Runner, although there are countless other hidden gems to explore.
+| Item | Pinned version or result |
+| --- | --- |
+| ScummVM base | v2026.4.0, commit `7d2709da5136866589f7602f5f5a7b17de03420e` |
+| Switch 2 toolchain | ounce-devkit 20261114, repository commit `f3478152dc553a104dd991efca4bde0c6e7cfe3e` |
+| Project source version | `2026.4.0-s2.1` in `VERSION_S2` |
+| Target | Switch 2 NRO through kaiHEN and libounce |
+| Hardware acceptance | Pending |
 
-For more information, compatibility lists, details on donating, the
-latest release, progress reports and more, please visit the ScummVM [home
-page](https://www.scummvm.org/).
+The port change is in `configure`. `SWITCH2_DEVKIT=1` selects libounce and the
+Switch 2 portlibs while retaining ScummVM's existing Switch SDL2 backend.
 
-## Quickstart
+## Local build packages
 
-For the impatient among you, here is how to get ScummVM running in five simple steps.
+The packages below are local build artifacts in the ignored `dist/` directory.
+They are **not releases** and contain no game data.
 
-1. Download ScummVM from [our website](https://www.scummvm.org/downloads/) and install it.
+| Package | Contents | SHA-256 |
+| --- | --- | --- |
+| `scummvm-2026.4.0-switch2-default-engines-unverified.zip` | 108 enabled engine entries and support data; 22 entries skipped by configuration | `a97dce2c5ba91cb7de67a8bc07d9b7e813a9d86800212e7bbca317a1d3659863` |
+| `scummvm-2026.4.0-switch2-scumm-only-unverified.zip` | SCUMM engine and support data | `dec5d62e4c155295c541d9de5f812f6f2a700d9bcfa8ea69eb6d0bb35ced5c1d` |
 
-2. Create a directory on your hard drive and copy the game datafiles from the original media to this directory. Repeat this for every game you want to play.
+The larger package omits engines whose dependencies were unavailable, including
+Macs2, QD Engine, and Thimbleweed Park. Package names describe their configured
+scope; they do not claim that the engines run on Switch 2.
 
-3. Start ScummVM, choose 'Add game', select the directory containing the game datafiles (do not try to select the datafiles themselves!) and press Choose.
+## Build
 
-4. The Game Options dialog opens to allow configuration of various settings for the game. These can be reconfigured at any time, but for now everything should be OK at the default settings.
+Use devkitPro's devkitA64 toolchain with ounce-devkit 20261114 and the Switch
+portlibs used by ScummVM's SDL2 backend. The reference build used an isolated
+Linux container based on `devkitpro/devkita64:20260219`; it did not modify the
+host's network configuration.
 
-5. Select the game you want to play in the list, and press Start. To play a game next time, skip to step 5, unless you want to add more games.
+From the repository root inside that environment:
 
->
-> Hint:
->
-> To add multiple games in one go, click the small arrow on the 'Add game' button and choose 'Mass Add'. You are again asked to select a directory, only this time ScummVM will search through all subdirectories for supported games.
+```sh
+export PATH="$DEVKITPRO/devkitA64/bin:$DEVKITPRO/tools/bin:$DEVKITPRO/portlibs/switch/bin:$PATH"
+mkdir -p build-switch2
+cd build-switch2
+SWITCH2_DEVKIT=1 ../configure --host=switch --opengl-mode=none \
+  --disable-sdlnet --disable-libcurl --disable-enet --disable-fluidsynth
+make -j"$(nproc)" scummvm_switch.zip
+```
 
+For the smaller SCUMM build, use a separate build directory and append
+`--disable-all-engines --enable-engine=scumm` to the configure command. The
+output is `scummvm_switch.zip`, containing `scummvm/scummvm.nro`, data, and
+documentation.
 
+## Installation and first test
 
-## Reporting a bug
+Extract the `scummvm` directory from one package to `sd:/switch/`. The NRO
+should then be at `sd:/switch/scummvm/scummvm.nro`. Start it from a Switch 2
+homebrew menu after kaiHEN is active. Supply game data separately.
 
-To report a bug, go to the ScummVM [Issue Tracker](https://bugs.scummvm.org/) and log in with your GitHub account.
+The first hardware check should confirm menu startup, controller input, audio,
+SD file access, a game launch, and clean exit. Record the console context and
+which package hash was tested before making a compatibility claim.
 
-Please make sure the bug is reproducible, and still occurs in the latest git/[Daily build](https://buildbot.scummvm.org/#/dailybuilds) version. Also check the [compatibility list](https://www.scummvm.org/compatibility/) for that game, to ensure the issue is not already known. Please do not report bugs for games that are not listed as completable on the [Supported Games](https://wiki.scummvm.org/index.php?title=Category:Supported_Games) wiki page, or on the compatibility list. We already know those games have bugs!
+## Verified results and limits
 
-Please include the following information in the bug report:
+- Both ZIP archives passed an integrity test and matched their source-side
+  SHA-256 values after transfer to the local workstation.
+- Both generated NRO files contain the `NRO0` identifier. Their source ELFs
+  are statically linked AArch64 programs.
+- ScummVM's own OpenGL mode is disabled. SDL2 still links to the Switch 2 EGL
+  overlay; video behavior requires a hardware test.
+- SDL2's existing build flags retain Cortex-A57 tuning. This does not provide
+  Switch 2 CPU optimization.
+- Network features selected above are disabled. Runtime graphics, input,
+  audio, filesystem behavior, and engine compatibility remain unverified.
 
-- ScummVM version (test the latest git/[Daily build](https://buildbot.scummvm.org/#/dailybuilds))
-- Bug details, including instructions for how to reproduce the bug. If possible, include log files, screenshots, and any other relevant information.
-- Game language
-- Game version (for example, talkie or floppy)
-- Platform and Compiler (for example, Win32, Linux or FreeBSD)
-- An attached saved game, if possible.
-- If this bug only occurred recently, include the last version without the bug, and the first version with the bug. That way we can fix it quicker by looking at the changes made.
+## Development and releases
 
-Finally, please report each issue separately; do not file multiple issues on the same ticket. It is difficult to track the status of each individual bug when they aren't on their own tickets.
+Project rules are in [AGENTS.md](AGENTS.md). Every change updates
+`VERSION_S2` and `CHANGELOG_S2.md` and is committed locally. There is no
+configured Git remote. A push requires explicit approval for its destination;
+a release requires separate approval. Private research, logs, captures, keys,
+save data, and device data must never be uploaded.
 
-## Documentation
+## Upstream and license
 
-### User documentation
-
-For everything you need to know about how to use ScummVM, see our [user documentation](https://docs.scummvm.org/).
-
-### The ScummVM Wiki
-
-[The wiki](https://wiki.scummvm.org/) is the place to go for information about every game supported by ScummVM. If you're a developer, there's also some very handy information in the Developer section.
-
-### Changelog
-
-Our extensive change log is available [here](NEWS.md).
-
-## SAST Tools
-
-[PVS-Studio](https://pvs-studio.com/en/pvs-studio/?utm_source=github&utm_medium=organic&utm_campaign=open_source) - static analyzer for C, C++, C#, and Java code.
-
-## Credits
-
-A massive thank you to the entire team for making the ScummVM project possible. See the credits [here](AUTHORS)!
-
------
-
-> Good Luck and Happy Adventuring\!
-> The ScummVM team.
-> <https://www.scummvm.org/>
+ScummVM and its original source are maintained by the
+[ScummVM team](https://github.com/scummvm/scummvm). The Switch 2 toolchain is
+maintained by [ouncebrew](https://github.com/ouncebrew/ounce-devkit).
+ScummVM's GPL license and notices remain in this source tree; see
+[COPYING](COPYING). This project is not affiliated with Nintendo or the
+ScummVM team.

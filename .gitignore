@@ -316,3 +316,20 @@ __pycache__/
 #Ignore Claude instruction files
 CLAUDE.md
 .claude
+
+# Local-only Switch 2 artifacts and private working material
+/dist/
+/out/
+/research/
+/logs/
+/captures/
+/private/
+/device-data/
+*.log
+*.trace
+*.pcap
+*.pcapng
+*.key
+*.pem
+*.p12
+*.sav
