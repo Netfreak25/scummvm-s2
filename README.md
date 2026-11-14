@@ -1,7 +1,7 @@
 # ScummVM-S2
 
 ScummVM-S2 is an independent build of [ScummVM](https://www.scummvm.org/)
-for Nintendo Switch 2 homebrew using [libounce](https://github.com/ouncebrew/ounce-devkit).
+for Nintendo Switch 2 homebrew using [libounce](https://github.com/ouncebrew/libounce).
 It targets the NRO loader provided by kaiHEN. This is an unofficial project.
 
 ## Status
@@ -13,7 +13,7 @@ packages, but neither package has been started on a Switch 2 yet.
 | --- | --- |
 | ScummVM base | v2026.4.0, commit `7d2709da5136866589f7602f5f5a7b17de03420e` |
 | Switch 2 toolchain | ounce-devkit 20261114, repository commit `f3478152dc553a104dd991efca4bde0c6e7cfe3e` |
-| Project source version | `2026.4.0-s2.1` in `VERSION_S2` |
+| Project source version | `2026.4.0-s2.2` in `VERSION_S2` |
 | Target | Switch 2 NRO through kaiHEN and libounce |
 | Hardware acceptance | Pending |
 
@@ -23,7 +23,9 @@ Switch 2 portlibs while retaining ScummVM's existing Switch SDL2 backend.
 ## Local build packages
 
 The packages below are local build artifacts in the ignored `dist/` directory.
-They are **not releases** and contain no game data.
+They are **not release assets** and contain no game data. The first public
+preview contains source code only while dependency notices for these statically
+linked NROs are audited.
 
 | Package | Contents | SHA-256 |
 | --- | --- | --- |
@@ -83,10 +85,10 @@ which package hash was tested before making a compatibility claim.
 ## Development and releases
 
 Project rules are in [AGENTS.md](AGENTS.md). Every change updates
-`VERSION_S2` and `CHANGELOG_S2.md` and is committed locally. There is no
-configured Git remote. A push requires explicit approval for its destination;
-a release requires separate approval. Private research, logs, captures, keys,
-save data, and device data must never be uploaded.
+`VERSION_S2` and `CHANGELOG_S2.md` and is committed locally. A push requires
+explicit approval for its destination; a release requires separate approval.
+Private research, logs, captures, keys, save data, and device data must never
+be uploaded.
 
 ## Upstream and license
 

@@ -3652,7 +3652,7 @@ EOF
 		_sdlpath="$DEVKITPRO/portlibs/switch/bin"
 		append_var DEFINES "-DSWITCH -D__SWITCH__ -DNINTENDO_SWITCH"
 		append_var CXXFLAGS "-ffunction-sections -fdata-sections"
-		# Use libounce for the Switch 2 NRO while keeping the SDL Switch backend.
+		# ScummVM-S2 modification (2026-11-14): use libounce for the Switch 2 NRO.
 		if test "x$SWITCH2_DEVKIT" = x1; then
 			append_var DEFINES "-D__SWITCH2__"
 			append_var CXXFLAGS "-mcpu=cortex-a78c+crypto -mtp=soft -fPIC -ftls-model=local-exec"
