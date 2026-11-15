@@ -13,7 +13,7 @@ packages, but neither package has been started on a Switch 2 yet.
 | --- | --- |
 | ScummVM base | v2026.4.0, commit `7d2709da5136866589f7602f5f5a7b17de03420e` |
 | Switch 2 toolchain | ounce-devkit 20261114, repository commit `f3478152dc553a104dd991efca4bde0c6e7cfe3e` |
-| Project source version | `2026.4.0-s2.2` in `VERSION_S2` |
+| Project source version | `2026.4.0-s2.3` in `VERSION_S2` |
 | Target | Switch 2 NRO through kaiHEN and libounce |
 | Hardware acceptance | Pending |
 
@@ -22,10 +22,9 @@ Switch 2 portlibs while retaining ScummVM's existing Switch SDL2 backend.
 
 ## Local build packages
 
-The packages below are local build artifacts in the ignored `dist/` directory.
-They are **not release assets** and contain no game data. The first public
-preview contains source code only while dependency notices for these statically
-linked NROs are audited.
+The packages below are the original local build inputs in the ignored `dist/`
+directory. They contain no game data. Public binary packages are made from
+these inputs by adding the reviewed notices and Switch 2 documentation.
 
 | Package | Contents | SHA-256 |
 | --- | --- | --- |
@@ -35,6 +34,28 @@ linked NROs are audited.
 The larger package omits engines whose dependencies were unavailable, including
 Macs2, QD Engine, and Thimbleweed Park. Package names describe their configured
 scope; they do not claim that the engines run on Switch 2.
+
+## Release packages and corresponding source
+
+`dists/switch2/package_release.py` creates the notice-complete ZIPs from the
+original build inputs. It rejects missing or changed notices and checks that
+the packaged NRO is byte-identical to the input:
+
+```sh
+python dists/switch2/package_release.py INPUT.zip OUTPUT.zip
+```
+
+The `2026.4.0-s2.3` pre-release has a default-engine package, a SCUMM-only
+package, and two dependency-source bundles. The binary ZIPs contain
+`doc/README_SWITCH2.md`, `doc/THIRD_PARTY_S2.md`, and the exact library notices
+under `doc/LICENSES_S2/`. The release page provides the final ZIP checksums.
+The dependency bundles contain the pinned ouncebrew sources and all 16 directly
+linked devkitPro portlib source archives with their relevant recipes and patches.
+See [THIRD_PARTY_S2.md](THIRD_PARTY_S2.md) for provenance and license choices.
+
+The source at the matching release tag, the dependency bundles, and the build
+command below provide the application and library sources needed to rebuild or
+relink. The NROs have not been tested on Switch 2 hardware.
 
 ## Build
 
