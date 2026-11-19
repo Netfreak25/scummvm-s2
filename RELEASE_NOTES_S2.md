@@ -1,9 +1,11 @@
-# ScummVM-S2 2026.4.0-s2.4
+# ScummVM-S2 2026.4.0-s2.5
 
-This is an unofficial, unverified Nintendo Switch 2 homebrew pre-release of
-ScummVM v2026.4.0. It includes a default-engine NRO package and a smaller
-SCUMM-only NRO package. Neither s2.4 package has been started on Switch 2
-hardware.
+This is an unofficial Nintendo Switch 2 homebrew pre-release of ScummVM
+v2026.4.0. It includes a default-engine NRO package and a smaller SCUMM-only
+NRO package. Both contain the same NRO bytes as the s2.4 build. The user
+reported starting ScummVM, running Day of the Tentacle, and confirming Joy-Con 2
+mouse input on Switch 2. The exact package variant and NRO hash of that test
+were not recorded; other engines and features need separate verification.
 
 ## New: Joy-Con 2 mouse support
 
@@ -18,14 +20,14 @@ Nintendo documents the Joy-Con 2 mouse capability in its
 The implementation uses the pinned libounce
 [`PadPointer` declarations](https://github.com/ouncebrew/libounce/blob/9382b1ec48ac5dabdaf52f1f99e0c0aacd02cd2f/nx/include/switch/runtime/pad.h)
 and [implementation](https://github.com/ouncebrew/libounce/blob/9382b1ec48ac5dabdaf52f1f99e0c0aacd02cd2f/nx/source/runtime/pad_pointer.c).
-These sources explain the API and hardware feature; they do not verify this
-ScummVM build on a console.
+These sources explain the API and hardware feature. The user test confirms
+mouse input for the tested package, within the context stated above.
 
 The binary ZIPs include ScummVM's GPLv3 notices, the exact notices for linked
 Switch 2 libraries, a SHA-256 notice manifest, and Switch 2 instructions.
-Matching application source is at tag `v2026.4.0-s2.4`. The dependency-source
-bundles `scummvm-s2-2026.4.0-s2.4-portlib-sources.zip` and
-`scummvm-s2-2026.4.0-s2.4-ounce-sources.zip` carry the unchanged pinned
+Matching application source is at tag `v2026.4.0-s2.5`. The dependency-source
+bundles `scummvm-s2-2026.4.0-s2.5-portlib-sources.zip` and
+`scummvm-s2-2026.4.0-s2.5-ounce-sources.zip` carry the unchanged pinned
 devkitPro portlib and ouncebrew sources used for both NRO variants.
 
 Default-engine NRO SHA-256:

@@ -1,6 +1,14 @@
 # ScummVM-S2 Changelog
 
-## 2026.4.0-s2.4 (2026-11-19, unverified build candidate)
+## 2026.4.0-s2.5 (2026-11-19)
+
+- Repackaged the unchanged s2.4 NRO binaries with corrected Switch 2 release
+  notes. The user reported running ScummVM, starting Day of the Tentacle, and
+  using Joy-Con 2 mouse input on Switch 2. The exact NRO hash was not captured.
+- Removed the blanket claim that no s2.4 package had run on hardware. Other
+  engines and features still require their own checks.
+
+## 2026.4.0-s2.4 (2026-11-19, initial build)
 
 - Added Joy-Con 2 optical mouse input through the pinned libounce PadPointer API
   in the Switch 2 SDL event source. Motion, mouse buttons, and scrolling enter
@@ -13,9 +21,9 @@
   feature in the s2.4 release packages.
 
 Both the default-engine and SCUMM-only NRO packages were built offline with the
-pinned toolchain and passed ZIP integrity and NRO-header checks. The Joy-Con 2
-input path has not been tested on Switch 2 hardware. The older s2.3 binary
-packages do not contain it.
+pinned toolchain and passed ZIP integrity and NRO-header checks. The user later
+reported running one mouse-enabled package on Switch 2 and confirming Joy-Con 2
+mouse input. The older s2.3 binary packages do not contain this input path.
 
 ## 2026.4.0-s2.3 (2026-11-15)
 
