@@ -30,10 +30,16 @@ fails, ScummVM logs the result and continues with its other input paths. A
 small graphics-manager hook keeps a synthetic button hold active through its
 release event so dragging at a letterboxed game-area edge is preserved. A
 physical Joy-Con 2 test is still required to establish on-console behavior.
+The controller feature is documented in Nintendo's
+[Joy-Con 2 FAQ](https://en-americas-support.nintendo.com/app/answers/detail/a_id/68217/~/joy-con%C2%A02-faq);
+the API and its behavior come from the pinned libounce
+[`PadPointer` header](https://github.com/ouncebrew/libounce/blob/9382b1ec48ac5dabdaf52f1f99e0c0aacd02cd2f/nx/include/switch/runtime/pad.h)
+and [implementation](https://github.com/ouncebrew/libounce/blob/9382b1ec48ac5dabdaf52f1f99e0c0aacd02cd2f/nx/source/runtime/pad_pointer.c).
 
 The s2.4 packages are in the ignored `build-switch2/scummvm_switch.zip` and
 `build-switch2-scumm/scummvm_switch.zip` paths. They are local build outputs,
-not a release. Their ZIP integrity and NRO headers were checked offline.
+used to make the notice-complete release packages. Their ZIP integrity and NRO
+headers were checked offline.
 
 ## Earlier local build packages
 
@@ -60,7 +66,7 @@ the packaged NRO is byte-identical to the input:
 python dists/switch2/package_release.py INPUT.zip OUTPUT.zip
 ```
 
-The `2026.4.0-s2.3` pre-release has a default-engine package, a SCUMM-only
+The `2026.4.0-s2.4` pre-release has a default-engine package, a SCUMM-only
 package, and two dependency-source bundles. The binary ZIPs contain
 `doc/README_SWITCH2.md`, `doc/THIRD_PARTY_S2.md`, and the exact library notices
 under `doc/LICENSES_S2/`. The release page provides the final ZIP checksums.

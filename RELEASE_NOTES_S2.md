@@ -1,27 +1,43 @@
-# ScummVM-S2 2026.4.0-s2.3
+# ScummVM-S2 2026.4.0-s2.4
 
 This is an unofficial, unverified Nintendo Switch 2 homebrew pre-release of
-ScummVM v2026.4.0. It includes two NRO packages: a default-engine build and a
-smaller SCUMM-only build. Neither has been started on Switch 2 hardware.
+ScummVM v2026.4.0. It includes a default-engine NRO package and a smaller
+SCUMM-only NRO package. Neither s2.4 package has been started on Switch 2
+hardware.
+
+## New: Joy-Con 2 mouse support
+
+The Switch 2 SDL event source uses libounce's `PadPointer` API to read Joy-Con 2
+optical movement, left and right mouse-button transitions, and vertical
+scrolling. These enter ScummVM through its existing SDL mouse-event path. Touch,
+stick, and ordinary mouse input remain available. If the Nmouse request fails,
+the application reports the error and continues with those other inputs.
+
+Nintendo documents the Joy-Con 2 mouse capability in its
+[Joy-Con 2 FAQ](https://en-americas-support.nintendo.com/app/answers/detail/a_id/68217/~/joy-con%C2%A02-faq).
+The implementation uses the pinned libounce
+[`PadPointer` declarations](https://github.com/ouncebrew/libounce/blob/9382b1ec48ac5dabdaf52f1f99e0c0aacd02cd2f/nx/include/switch/runtime/pad.h)
+and [implementation](https://github.com/ouncebrew/libounce/blob/9382b1ec48ac5dabdaf52f1f99e0c0aacd02cd2f/nx/source/runtime/pad_pointer.c).
+These sources explain the API and hardware feature; they do not verify this
+ScummVM build on a console.
 
 The binary ZIPs include ScummVM's GPLv3 notices, the exact notices for linked
 Switch 2 libraries, a SHA-256 notice manifest, and Switch 2 instructions.
-The matching source is provided by this release tag and two dependency-source
-bundles: `scummvm-s2-2026.4.0-s2.3-portlib-sources.zip` and
-`scummvm-s2-2026.4.0-s2.3-ounce-sources.zip`. The former contains 16 verified
-source archives and the relevant devkitPro recipes and patches; the latter
-contains the pinned ounce-devkit, libounce, and OunceVK source trees.
+Matching application source is at tag `v2026.4.0-s2.4`. The dependency-source
+bundles `scummvm-s2-2026.4.0-s2.4-portlib-sources.zip` and
+`scummvm-s2-2026.4.0-s2.4-ounce-sources.zip` carry the unchanged pinned
+devkitPro portlib and ouncebrew sources used for both NRO variants.
 
-The default-engine NRO SHA-256 is
-`820d94a925fe5c7c5d240512c1f7481dc0026f3adb44652b5d21406543df42a2`.
-The SCUMM-only NRO SHA-256 is
-`df1f9f606bd72b735a55858c884d4c44435f9fd15bd356b9429db74a93dcaf6b`.
-ZIP checksums are recorded alongside the release assets.
+Default-engine NRO SHA-256:
+`6c3f489673a275da106134cf85f4548f8f4b0d80903becdc516ed71e3130c53d`
 
-Install by extracting the `scummvm` directory to `sd:/switch/` and launch
-`sd:/switch/scummvm/scummvm.nro` through a compatible homebrew menu. Supply
-your own legally obtained game data. See `doc/README_SWITCH2.md` for installation,
-`doc/THIRD_PARTY_S2.md` for library provenance, and the source repository's
-`README.md` for build steps and limitations.
+SCUMM-only NRO SHA-256:
+`3481e2d667bf5f675992fa46a8e237b2bfe4d8a1dc6442a8bee6d6a7c370115a`
+
+ZIP checksums are recorded alongside the release assets. Extract the `scummvm`
+directory to `sd:/switch/` and launch `sd:/switch/scummvm/scummvm.nro` through a
+compatible homebrew menu. Supply your own legally obtained game data. See
+`doc/README_SWITCH2.md` for installation, `doc/THIRD_PARTY_S2.md` for library
+provenance, and the source repository's `README.md` for build steps and limits.
 
 This software is based in part on the work of the Independent JPEG Group.

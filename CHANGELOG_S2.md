@@ -9,6 +9,8 @@
   A failed Nmouse initialization is reported and leaves those inputs available.
 - Preserved dragging across the edge of a letterboxed game area for synthetic
   Joy-Con mouse-button events.
+- Documented the pinned libounce pointer API and Nintendo's Joy-Con 2 mouse
+  feature in the s2.4 release packages.
 
 Both the default-engine and SCUMM-only NRO packages were built offline with the
 pinned toolchain and passed ZIP integrity and NRO-header checks. The Joy-Con 2

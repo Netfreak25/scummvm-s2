@@ -99,10 +99,10 @@ FreeType License; libmikmod is distributed under its LGPL-2.1 option.
 The same release provides the ScummVM source at its tag and these source
 bundles, each with checksums and origin records:
 
-- `scummvm-s2-2026.4.0-s2.3-portlib-sources.zip`: all 16 source archives,
+- `scummvm-s2-2026.4.0-s2.4-portlib-sources.zip`: all 16 source archives,
   the 16 relevant devkitPro recipes, and their patches and build inputs;
   SHA-256 `bd8817f47db8d27810d47f58b402542393efa5e5621f5484b76593498848dc83`.
-- `scummvm-s2-2026.4.0-s2.3-ounce-sources.zip`: pinned ounce-devkit,
+- `scummvm-s2-2026.4.0-s2.4-ounce-sources.zip`: pinned ounce-devkit,
   libounce, and OunceVK sources and build scripts; SHA-256
   `5037a6006bca19fc22f65ca3ba02206055fd0e183f4943f2e4d6eb06dfb00ac3`.
 
