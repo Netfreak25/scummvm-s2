@@ -91,6 +91,8 @@ void SdlGraphicsManager::activateManager() {
 }
 
 void SdlGraphicsManager::deactivateManager() {
+	// A detached event source must not leave a virtual drag active.
+	_syntheticMouseButtonDown = false;
 	// Unregister the event observer
 	if (g_system->getEventManager()->getEventDispatcher()) {
 		g_system->getEventManager()->getEventDispatcher()->unregisterObserver(this);
@@ -277,7 +279,7 @@ bool SdlGraphicsManager::notifyMousePosition(Common::Point &mouse) {
 			// Keep the mouse inside the game area during dragging to prevent an
 			// event mismatch where the mouseup event gets lost because it is
 			// performed outside of the game area
-			(_cursorLastInActiveArea && SDL_GetMouseState(nullptr, nullptr) != 0)) {
+			(_cursorLastInActiveArea && (SDL_GetMouseState(nullptr, nullptr) != 0 || _syntheticMouseButtonDown))) {
 			setSystemMousePosition(mouse.x, mouse.y);
 		} else {
 			// Allow the in-game mouse to get a final movement event to the edge

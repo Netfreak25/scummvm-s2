@@ -6,23 +6,38 @@ It targets the NRO loader provided by kaiHEN. This is an unofficial project.
 
 ## Status
 
-**Unverified build candidate.** The source compiles and produces AArch64 NRO
-packages, but neither package has been started on a Switch 2 yet.
+**Unverified build candidate.** Version s2.4 adds Joy-Con 2 optical mouse
+input. Both the default-engine and SCUMM-only NRO packages were built with the
+pinned toolchain, but neither has been started on Switch 2. The earlier s2.3
+NRO packages do not include this input path.
 
 | Item | Pinned version or result |
 | --- | --- |
 | ScummVM base | v2026.4.0, commit `7d2709da5136866589f7602f5f5a7b17de03420e` |
 | Switch 2 toolchain | ounce-devkit 20261114, repository commit `f3478152dc553a104dd991efca4bde0c6e7cfe3e` |
-| Project source version | `2026.4.0-s2.3` in `VERSION_S2` |
+| Project source version | `2026.4.0-s2.4` in `VERSION_S2` |
 | Target | Switch 2 NRO through kaiHEN and libounce |
 | Hardware acceptance | Pending |
 
-The port change is in `configure`. `SWITCH2_DEVKIT=1` selects libounce and the
-Switch 2 portlibs while retaining ScummVM's existing Switch SDL2 backend.
+`SWITCH2_DEVKIT=1` selects libounce and the Switch 2 portlibs while retaining
+ScummVM's existing Switch SDL2 backend.
 
-## Local build packages
+On Switch 2, the SDL event source now reads Joy-Con 2 optical input through the
+pinned libounce `PadPointer` API. It maps movement, buttons, and scrolling to
+ScummVM mouse events while retaining touch, stick, and standard mouse input.
+Any connected player can supply a Joy-Con pointer. If Nmouse initialization
+fails, ScummVM logs the result and continues with its other input paths. A
+small graphics-manager hook keeps a synthetic button hold active through its
+release event so dragging at a letterboxed game-area edge is preserved. A
+physical Joy-Con 2 test is still required to establish on-console behavior.
 
-The packages below are the original local build inputs in the ignored `dist/`
+The s2.4 packages are in the ignored `build-switch2/scummvm_switch.zip` and
+`build-switch2-scumm/scummvm_switch.zip` paths. They are local build outputs,
+not a release. Their ZIP integrity and NRO headers were checked offline.
+
+## Earlier local build packages
+
+The s2.3 packages below are the original local build inputs in the ignored `dist/`
 directory. They contain no game data. Public binary packages are made from
 these inputs by adding the reviewed notices and Switch 2 documentation.
 

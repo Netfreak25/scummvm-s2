@@ -1,5 +1,20 @@
 # ScummVM-S2 Changelog
 
+## 2026.4.0-s2.4 (2026-11-19, unverified build candidate)
+
+- Added Joy-Con 2 optical mouse input through the pinned libounce PadPointer API
+  in the Switch 2 SDL event source. Motion, mouse buttons, and scrolling enter
+  ScummVM through its existing mouse event handling.
+- Preserved the existing Switch 1, touch, stick, and standard mouse input paths.
+  A failed Nmouse initialization is reported and leaves those inputs available.
+- Preserved dragging across the edge of a letterboxed game area for synthetic
+  Joy-Con mouse-button events.
+
+Both the default-engine and SCUMM-only NRO packages were built offline with the
+pinned toolchain and passed ZIP integrity and NRO-header checks. The Joy-Con 2
+input path has not been tested on Switch 2 hardware. The older s2.3 binary
+packages do not contain it.
+
 ## 2026.4.0-s2.3 (2026-11-15)
 
 - Audited the static library inputs in both NRO builds against their pinned

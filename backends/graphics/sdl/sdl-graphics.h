@@ -91,6 +91,9 @@ public:
 	 */
 	virtual bool notifyMousePosition(Common::Point &mouse);
 
+	// Pushed device events do not change SDL_GetMouseState; preserve drag clipping.
+	void setSyntheticMouseButtonDown(bool down) { _syntheticMouseButtonDown = down; }
+
 	bool showMouse(bool visible) override;
 	bool lockMouse(bool lock) override;
 
@@ -219,6 +222,8 @@ protected:
 
 private:
 	void toggleFullScreen();
+
+	bool _syntheticMouseButtonDown = false;
 
 #if defined(USE_IMGUI) && SDL_VERSION_ATLEAST(2, 0, 0)
 public:
